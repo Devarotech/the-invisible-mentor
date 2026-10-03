@@ -27,6 +27,8 @@
     "eslint-config-next": "^16.0.0",
     "typescript": "^5.0.0",
     "drizzle-kit": "^0.31.4",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "tailwindcss": "^4.1.13",
+    "@tailwindcss/postcss": "^4.1.13"
   }
 }
