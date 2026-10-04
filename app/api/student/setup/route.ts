@@ -80,6 +80,7 @@ export async function POST(request: Request) {
           .where(and(eq(topics.subjectId, subject.id), eq(topics.slug, topic.id)))
           .limit(1);
 
+        const topicWasCreated = !existingTopic[0];
         const topicRecord = existingTopic[0] ?? (await db.insert(topics).values({
           subjectId: subject.id,
           title: topic.title,
@@ -88,6 +89,8 @@ export async function POST(request: Request) {
           curriculumVersion: curriculumV1.version,
           examRelevance: topic.examRelevance?.[body.exam as "JAMB" | "WAEC" | "NECO"] ?? 1,
         }).returning())[0];
+
+        if (!topicWasCreated) continue;
 
         for (const objective of topic.subtopics.flatMap((node) => node.objectives ?? [])) {
           await db.insert(learningObjectives).values({
