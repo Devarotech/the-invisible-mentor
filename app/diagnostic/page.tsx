@@ -9,28 +9,33 @@ type Profile = {
   exam: string;
   subjects: string[];
   goal: string;
+  studentId: string;
 };
 
 const questions = [
   {
+    topicId: "math-linear-equations",
     subject: "Mathematics",
     question: "If 2x + 6 = 14, what is x?",
     options: ["2", "4", "6", "8"],
     answer: "4",
   },
   {
+    topicId: "english-reading",
     subject: "English",
     question: "Choose the word closest in meaning to “rapid”.",
     options: ["Slow", "Quick", "Weak", "Quiet"],
     answer: "Quick",
   },
   {
+    topicId: "physics-foundations",
     subject: "Physics",
     question: "Which quantity is measured in metres per second?",
     options: ["Force", "Energy", "Speed", "Mass"],
     answer: "Speed",
   },
   {
+    topicId: "biology-cell-biology",
     subject: "Biology",
     question: "Which structure controls most activities of a cell?",
     options: ["Cell wall", "Nucleus", "Vacuole", "Ribosome"],
@@ -95,7 +100,37 @@ export default function Diagnostic() {
       answers,
     };
 
-    localStorage.setItem("invisible-mentor-diagnostic", JSON.stringify(diagnostic));
+    try {
+      const response = await fetch("/api/diagnostic", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentId: profile.studentId,
+          exam: profile.exam,
+          answers: visibleQuestions.map((item, index) => ({
+            subject: item.subject,
+            topicId: item.topicId,
+            answer: answers[index],
+            correctAnswer: item.answer,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error ?? "Unable to save diagnostic");
+      }
+
+      const saved = await response.json();
+      localStorage.setItem(
+        "invisible-mentor-diagnostic",
+        JSON.stringify({ ...diagnostic, ...saved }),
+      );
+    } catch (error) {
+      console.error(error);
+      setFinished(false);
+      return;
+    }
   }
 
   if (finished) {
