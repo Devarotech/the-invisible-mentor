@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import {
   assessmentAttempts,
@@ -9,7 +9,6 @@ import {
   topicMastery,
   topics,
 } from "@/lib/db/schema";
-import { curriculumV1 } from "@/lib/curriculum/model";
 import { calculateTopicMastery } from "@/lib/learning/mastery";
 
 type Answer = {
@@ -50,19 +49,6 @@ export async function POST(request: Request) {
     if (!preparation[0]) {
       return NextResponse.json({ error: "Exam preparation not found." }, { status: 404 });
     }
-
-    const studentSubjectRows = await db
-      .select({ id: subjects.id, name: subjects.name })
-      .from(subjects)
-      .innerJoin(
-        // Drizzle relation expressed through the student-subject table is intentionally queried below.
-        // This placeholder is replaced by the subject lookup used for each answer.
-        examPreparations,
-        eq(examPreparations.id, preparation[0].id),
-      )
-      .limit(0);
-
-    void studentSubjectRows;
 
     const score = body.answers.filter((item) => item.answer === item.correctAnswer).length;
 
