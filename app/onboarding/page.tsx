@@ -53,8 +53,28 @@ export default function Onboarding() {
       onboardingVersion: 1,
     };
 
-    localStorage.setItem("invisible-mentor-profile", JSON.stringify(profile));
-    router.push("/diagnostic");
+    try {
+      const response = await fetch("/api/student/setup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error ?? "We could not save your profile. Please try again.");
+        return;
+      }
+
+      localStorage.setItem(
+        "invisible-mentor-profile",
+        JSON.stringify({ ...profile, studentId: data.studentId }),
+      );
+      router.push("/diagnostic");
+    } catch {
+      setError("We could not reach the learning service. Please try again.");
+    }
   }
 
   return (
