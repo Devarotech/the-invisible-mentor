@@ -32,7 +32,7 @@ export default function Onboarding() {
     );
   }
 
-  function continueStep() {
+  async function continueStep() {
     if (!canContinue) {
       setError(step === 0 ? "Please enter your name." : step === 2 ? "Choose at least one subject." : "Tell your mentor what you want to achieve.");
       return;
