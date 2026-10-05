@@ -86,8 +86,7 @@ export default function Diagnostic() {
     setAnswers((old) => ({ ...old, [current]: option }));
   }
 
-  function finish() {
-    setFinished(true);
+  async function finish() {
     const score = visibleQuestions.reduce(
       (total, item, index) => total + (answers[index] === item.answer ? 1 : 0),
       0
@@ -126,6 +125,7 @@ export default function Diagnostic() {
         "invisible-mentor-diagnostic",
         JSON.stringify({ ...diagnostic, ...saved }),
       );
+      setFinished(true);
     } catch (error) {
       console.error(error);
       setFinished(false);
