@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Bookmark, CheckCircle2, Clock3, Flag, House, RotateCcw } from "lucide-react";
 
@@ -88,10 +88,6 @@ export default function CbtSimulatorPage() {
 
   const remaining = deadline === null ? DURATION_SECONDS : Math.max(0, Math.ceil((deadline - now) / 1000));
   const currentQuestion = questions[current];
-  const visibleQuestions = useMemo(
-    () => activeSubject === "All" ? questions : questions.filter((question) => question.subject === activeSubject),
-    [activeSubject],
-  );
   const correctCount = questions.reduce((total, question) => total + (answers[question.id] === question.answer ? 1 : 0), 0);
   const answeredCount = Object.keys(answers).filter((id) => questions.some((question) => question.id === Number(id))).length;
 
