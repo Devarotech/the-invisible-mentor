@@ -112,7 +112,6 @@ export default function Diagnostic() {
             subject: item.subject,
             topicId: item.topicId,
             answer: answers[index],
-            correctAnswer: item.answer,
           })),
         }),
       });
