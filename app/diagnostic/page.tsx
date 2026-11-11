@@ -86,6 +86,8 @@ export default function Diagnostic() {
     setAnswers((old) => ({ ...old, [current]: option }));
   }
 
+  const currentProfile = profile;
+
   async function finish() {
     const score = visibleQuestions.reduce(
       (total, item, index) => total + (answers[index] === item.answer ? 1 : 0),
@@ -104,8 +106,8 @@ export default function Diagnostic() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          studentId: profile.studentId,
-          exam: profile.exam,
+          studentId: currentProfile.studentId,
+          exam: currentProfile.exam,
           answers: visibleQuestions.map((item, index) => ({
             subject: item.subject,
             topicId: item.topicId,
