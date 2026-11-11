@@ -14,21 +14,21 @@ type Profile = {
 
 const questions = [
   {
-    topicId: "math-linear-equations",
+    topicId: "math-algebra",
     subject: "Mathematics",
     question: "If 2x + 6 = 14, what is x?",
     options: ["2", "4", "6", "8"],
     answer: "4",
   },
   {
-    topicId: "english-reading",
+    topicId: "english-vocabulary",
     subject: "English",
     question: "Choose the word closest in meaning to “rapid”.",
     options: ["Slow", "Quick", "Weak", "Quiet"],
     answer: "Quick",
   },
   {
-    topicId: "physics-foundations",
+    topicId: "physics-motion",
     subject: "Physics",
     question: "Which quantity is measured in metres per second?",
     options: ["Force", "Energy", "Speed", "Mass"],
