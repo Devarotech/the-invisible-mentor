@@ -15,7 +15,6 @@ type Answer = {
   subject: string;
   topicId: string;
   answer: string;
-  correctAnswer: string;
 };
 
 type Body = {
@@ -28,8 +27,22 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Body;
 
-    if (!body.studentId || !body.exam || !Array.isArray(body.answers)) {
+    if (!body.studentId || !body.exam || !exams.has(body.exam) || !Array.isArray(body.answers) || body.answers.length === 0) {
       return NextResponse.json({ error: "Incomplete diagnostic submission." }, { status: 400 });
+    }
+
+    const answersAreValid = body.answers.every((item) => {
+      const expected = diagnosticAnswerKey[item.topicId];
+      return Boolean(
+        expected &&
+        expected.subject === item.subject &&
+        typeof item.answer === "string" &&
+        item.answer.length > 0
+      );
+    });
+
+    if (!answersAreValid) {
+      return NextResponse.json({ error: "The diagnostic contains an unsupported question or answer." }, { status: 400 });
     }
 
     const db = getDb();
@@ -50,7 +63,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Exam preparation not found." }, { status: 404 });
     }
 
-    const score = body.answers.filter((item) => item.answer === item.correctAnswer).length;
+    const score = body.answers.filter(
+      (item) => item.answer === diagnosticAnswerKey[item.topicId].correctAnswer,
+    ).length;
 
     for (const item of body.answers) {
       const subject = await db
@@ -72,7 +87,7 @@ export async function POST(request: Request) {
         topicId: topic[0]?.id ?? null,
         exam,
         answer: item.answer,
-        isCorrect: item.answer === item.correctAnswer,
+        isCorrect: item.answer === diagnosticAnswerKey[item.topicId].correctAnswer,
         attemptNumber: 1,
         metadata: { source: "diagnostic", curriculumTopicId: item.topicId },
       });
