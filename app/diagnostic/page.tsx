@@ -56,6 +56,8 @@ export default function Diagnostic() {
       router.replace("/onboarding");
       return;
     }
+    // Browser storage is unavailable during server rendering; hydrate this client-only state after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setProfile(JSON.parse(raw));
   }, [router]);
 
