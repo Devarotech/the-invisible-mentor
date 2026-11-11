@@ -22,7 +22,6 @@ export default function Dashboard() {
     // Browser storage is unavailable during server rendering; hydrate this client-only state after mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (profileRaw) setProfile(JSON.parse(profileRaw));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (diagnosticRaw) setDiagnostic(JSON.parse(diagnosticRaw));
   }, []);
 
