@@ -11,6 +11,15 @@ import {
 } from "@/lib/db/schema";
 import { calculateTopicMastery } from "@/lib/learning/mastery";
 
+const exams = new Set(["JAMB", "WAEC", "NECO"]);
+
+const diagnosticAnswerKey: Record<string, { subject: string; correctAnswer: string }> = {
+  "math-algebra": { subject: "Mathematics", correctAnswer: "4" },
+  "english-vocabulary": { subject: "English", correctAnswer: "Quick" },
+  "physics-motion": { subject: "Physics", correctAnswer: "Speed" },
+  "biology-cell-biology": { subject: "Biology", correctAnswer: "Nucleus" },
+};
+
 type Answer = {
   subject: string;
   topicId: string;
