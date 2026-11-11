@@ -131,6 +131,86 @@ export const curriculumV1: Curriculum = {
             },
           ],
         },
+        {
+          id: "english-vocabulary",
+          type: "topic",
+          subjectId: "english",
+          title: "Vocabulary and word meaning",
+          description: "Understanding word meanings, synonyms and antonyms in context.",
+          examRelevance: { JAMB: 1.2, WAEC: 1.1, NECO: 1.1 },
+          subtopics: [
+            {
+              id: "english-synonyms",
+              title: "Synonyms and antonyms",
+              prerequisites: [],
+              objectives: [
+                {
+                  id: "obj-vocabulary-1",
+                  title: "Identify synonyms and antonyms",
+                  description: "Choose words with similar or opposite meanings, including from context.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "physics",
+      name: "Physics",
+      exams: ["JAMB", "WAEC", "NECO"],
+      topics: [
+        {
+          id: "physics-motion",
+          type: "topic",
+          subjectId: "physics",
+          title: "Motion",
+          description: "Describing movement using distance, displacement, speed and velocity.",
+          examRelevance: { JAMB: 1, WAEC: 1, NECO: 1 },
+          subtopics: [
+            {
+              id: "physics-speed",
+              title: "Speed and velocity",
+              prerequisites: [],
+              objectives: [
+                {
+                  id: "obj-speed-1",
+                  title: "Recognise speed and its units",
+                  description: "Identify speed as distance travelled per unit time and recognise metres per second.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "biology",
+      name: "Biology",
+      exams: ["JAMB", "WAEC", "NECO"],
+      topics: [
+        {
+          id: "biology-cell-biology",
+          type: "topic",
+          subjectId: "biology",
+          title: "Cell biology",
+          description: "Understanding cell structures and their functions.",
+          examRelevance: { JAMB: 1, WAEC: 1, NECO: 1 },
+          subtopics: [
+            {
+              id: "biology-cell-structure",
+              title: "Cell structures and functions",
+              prerequisites: [],
+              objectives: [
+                {
+                  id: "obj-cell-1",
+                  title: "Identify major cell structures",
+                  description: "Identify the nucleus and describe its role in controlling cell activities.",
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
   ],
